@@ -47,7 +47,7 @@ tapmoc {
 }
 
 mavenPublishing {
-    coordinates("com.github.keiyoushi", "extensions-lib", "1.6")
+    coordinates("com.github.keiyoushi", "extensions-lib", "1.6-bgm")
 
     pom {
         name.set("extensions-lib")
