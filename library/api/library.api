@@ -99,6 +99,11 @@ public final class eu/kanade/tachiyomi/AppInfo {
 	public final fun getVersionName ()Ljava/lang/String;
 }
 
+public final class eu/kanade/tachiyomi/network/AppTransport {
+	public static final field INSTANCE Leu/kanade/tachiyomi/network/AppTransport;
+	public final fun interceptor (Lokhttp3/CookieJar;Z)Lokhttp3/Interceptor;
+}
+
 public final class eu/kanade/tachiyomi/network/HttpException : java/lang/IllegalStateException {
 	public fun <init> (I)V
 	public final fun getCode ()I
