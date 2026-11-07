@@ -18,6 +18,14 @@ interface CatalogueSource : Source {
     val supportsRelatedMangas: Boolean get() = false
 
     /**
+     * Whether the source leaves the genres the user hides app wide out of its results,
+     * see [eu.kanade.tachiyomi.AppInfo.getHiddenGenres].
+     *
+     * @since extensions-lib 1.6
+     */
+    val supportsHiddenGenres: Boolean get() = false
+
+    /**
      * Extensions doesn't want to use App's [getRelatedMangaListBySearch].
      * Only Supported on Komikku
      * @default false
