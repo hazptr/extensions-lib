@@ -17,4 +17,13 @@ object AppInfo {
      * @since extension-lib 1.3
      */
     fun getVersionName(): String = throw Exception("Stub!")
+
+    /**
+     * Genre names the user hides app wide, as typed. Sources that can exclude genres
+     * leave titles with a matching site genre out of browse and search.
+     * A search filter that includes one of them wins.
+     *
+     * @since tachiyomix 1.7
+     */
+    fun getHiddenGenres(): Set<String> = throw Exception("Stub!")
 }

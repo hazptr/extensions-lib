@@ -95,6 +95,7 @@ public class androidx/preference/TwoStatePreference : androidx/preference/Prefer
 
 public final class eu/kanade/tachiyomi/AppInfo {
 	public static final field INSTANCE Leu/kanade/tachiyomi/AppInfo;
+	public final fun getHiddenGenres ()Ljava/util/Set;
 	public final fun getVersionCode ()I
 	public final fun getVersionName ()Ljava/lang/String;
 }
@@ -152,11 +153,13 @@ public abstract interface class eu/kanade/tachiyomi/source/Source {
 	public abstract fun getPageList (Leu/kanade/tachiyomi/source/model/SChapter;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getPopularManga (ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getSearchManga (ILjava/lang/String;Leu/kanade/tachiyomi/source/model/FilterList;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getSupportsHiddenGenres ()Z
 	public abstract fun getSupportsLatest ()Z
 }
 
 public final class eu/kanade/tachiyomi/source/Source$DefaultImpls {
 	public static fun getFilterList (Leu/kanade/tachiyomi/source/Source;)Leu/kanade/tachiyomi/source/model/FilterList;
+	public static fun getSupportsHiddenGenres (Leu/kanade/tachiyomi/source/Source;)Z
 }
 
 public abstract interface class eu/kanade/tachiyomi/source/SourceFactory {
