@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/keiyoushi/extensions-lib/blob/main/schema/memo-meta.schema.json",
+  "title": "memo[\"meta\"] of an SManga",
+  "description": "Structured details of a series, stored under the \"meta\" key of SManga.memo next to the plain fields that show the same facts. A few typed keys serve searching, sorting and filtering; everything to display goes into \"sections\", blocks in the order the source lists them. Every key except \"v\" is optional and left out when unknown. Keys added later keep \"v\"; readers ignore keys and block types they don't know. The same object on an SChapter follows #/$defs/chapter.",
+  "type": "object",
+  "required": ["v"],
+  "properties": {
+    "v": {
+      "description": "Layout version. Changes only when an existing key changes meaning or shape.",
+      "const": 1
+    },
+    "altTitles": {
+      "description": "Other titles of the series, in any language or script, without the title itself.",
+      "$ref": "#/$defs/strings"
+    },
+    "rating": {
+      "description": "The site's rating as it gives it.",
+      "type": "object",
+      "required": ["value", "max"],
+      "properties": {
+        "value": { "description": "The rating, on the scale 0 to \"max\".", "type": "number" },
+        "max": { "description": "Top of the scale, e.g. 5, 10 or 100.", "type": "integer", "exclusiveMinimum": 0 },
+        "votes": { "description": "Number of ratings behind \"value\".", "type": "integer", "minimum": 0 }
+      }
+    },
+    "contentRating": {
+      "description": "Audience the site rates the series for.",
+      "enum": ["safe", "suggestive", "adult"]
+    },
+    "primaryTags": {
+      "description": "The site's genres or main categories, when SManga.genre also holds other tags.",
+      "$ref": "#/$defs/strings"
+    },
+    "sections": {
+      "description": "What to display, as blocks in order.",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          { "$ref": "#/$defs/fields" },
+          { "$ref": "#/$defs/titles" },
+          { "$ref": "#/$defs/chips" },
+          { "$ref": "#/$defs/links" },
+          { "$ref": "#/$defs/text" }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "text_": { "type": "string", "minLength": 1 },
+    "strings": { "type": "array", "items": { "$ref": "#/$defs/text_" }, "uniqueItems": true },
+    "fields": {
+      "description": "Label and value rows, e.g. type, year, publisher, views.",
+      "type": "object",
+      "required": ["type", "fields"],
+      "properties": {
+        "type": { "const": "fields" },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["label", "value"],
+            "properties": {
+              "label": { "$ref": "#/$defs/text_" },
+              "value": { "$ref": "#/$defs/text_" },
+              "summary": { "description": "A short fact fit for a one-line overview (type, year, language).", "type": "boolean", "default": false }
+            }
+          }
+        }
+      }
+    },
+    "titles": {
+      "description": "A list of titles under a label, e.g. alternative names.",
+      "type": "object",
+      "required": ["type", "label", "values"],
+      "properties": {
+        "type": { "const": "titles" },
+        "label": { "$ref": "#/$defs/text_" },
+        "values": { "$ref": "#/$defs/strings", "minItems": 1 }
+      }
+    },
+    "chips": {
+      "description": "Short values under a label, e.g. a group of the site's tags.",
+      "type": "object",
+      "required": ["type", "label", "values"],
+      "properties": {
+        "type": { "const": "chips" },
+        "label": { "type": "string" },
+        "values": { "$ref": "#/$defs/strings", "minItems": 1 },
+        "search": { "description": "Each value is a search term for the source.", "type": "boolean", "default": false },
+        "collapsed": { "description": "Values the site tucks away, e.g. behind \"more\".", "type": "boolean", "default": false },
+        "spoiler": { "description": "Values the site marks as spoilers.", "type": "boolean", "default": false }
+      }
+    },
+    "links": {
+      "description": "Links under a label, e.g. databases, the original publication, official translations (each labelled with its language), stores.",
+      "type": "object",
+      "required": ["type", "label", "links"],
+      "properties": {
+        "type": { "const": "links" },
+        "label": { "$ref": "#/$defs/text_" },
+        "links": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["label", "url"],
+            "properties": {
+              "label": { "$ref": "#/$defs/text_" },
+              "url": { "description": "Absolute http(s) URL.", "type": "string", "pattern": "^https?://" }
+            }
+          }
+        }
+      }
+    },
+    "text": {
+      "description": "A paragraph of Markdown, in the same dialect as SManga.description.",
+      "type": "object",
+      "required": ["type", "markdown"],
+      "properties": {
+        "type": { "const": "text" },
+        "markdown": { "$ref": "#/$defs/text_" }
+      }
+    },
+    "language": {
+      "description": "BCP 47 language tag, e.g. ja, ko, zh-Hans, es-419.",
+      "type": "string",
+      "pattern": "^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$"
+    },
+    "chapter": {
+      "title": "memo[\"meta\"] of an SChapter",
+      "description": "Structured details of a chapter, under the \"meta\" key of SChapter.memo. Every key except \"v\" is optional.",
+      "type": "object",
+      "required": ["v"],
+      "properties": {
+        "v": { "const": 1 },
+        "locked": {
+          "description": "The site serves the chapter's pages only after a purchase, a login or a wait. Left out when false.",
+          "const": true
+        },
+        "volume": { "description": "Volume the chapter belongs to, as the site writes it.", "$ref": "#/$defs/text_" },
+        "scanlators": { "description": "Every group credited, when SChapter.scanlator joins several.", "$ref": "#/$defs/strings" },
+        "language": { "description": "Language of the chapter, when the source mixes languages.", "$ref": "#/$defs/language" }
+      }
+    }
+  }
+}
