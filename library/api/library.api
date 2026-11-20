@@ -168,6 +168,16 @@ public abstract interface class eu/kanade/tachiyomi/source/SourceFactory {
 	public abstract fun createSources ()Ljava/util/List;
 }
 
+public abstract interface class eu/kanade/tachiyomi/source/SyncableSource : eu/kanade/tachiyomi/source/Source {
+	public abstract fun getSyncState (Leu/kanade/tachiyomi/source/model/SManga;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun setChaptersRead (Leu/kanade/tachiyomi/source/model/SManga;Ljava/util/List;ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun setFavorite (Leu/kanade/tachiyomi/source/model/SManga;ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class eu/kanade/tachiyomi/source/SyncableSource$DefaultImpls {
+	public static fun getFilterList (Leu/kanade/tachiyomi/source/SyncableSource;)Leu/kanade/tachiyomi/source/model/FilterList;
+}
+
 public abstract interface class eu/kanade/tachiyomi/source/UnmeteredSource {
 }
 
@@ -385,6 +395,12 @@ public final class eu/kanade/tachiyomi/source/model/SMangaUpdate {
 	public fun <init> (Leu/kanade/tachiyomi/source/model/SManga;Ljava/util/List;)V
 	public final fun getChapters ()Ljava/util/List;
 	public final fun getManga ()Leu/kanade/tachiyomi/source/model/SManga;
+}
+
+public final class eu/kanade/tachiyomi/source/model/SyncState {
+	public fun <init> (Ljava/util/Set;Ljava/lang/Boolean;)V
+	public final fun getFavorite ()Ljava/lang/Boolean;
+	public final fun getReadChapterUrls ()Ljava/util/Set;
 }
 
 public final class eu/kanade/tachiyomi/source/model/UpdateStrategy : java/lang/Enum {
