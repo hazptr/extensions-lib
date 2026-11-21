@@ -32,6 +32,12 @@
       "description": "The site's genres or main categories, when SManga.genre also holds other tags.",
       "$ref": "#/$defs/strings"
     },
+    "trackers": {
+      "description": "The series' ids on trackers, keyed by tracker, e.g. {\"anilist\": \"30002\", \"myanimelist\": \"2\"}. Known keys: anilist, myanimelist, kitsu, mangaupdates (base-36 id, or the old numeric one), animeplanet (slug), mangabaka, shikimori, novelupdates (slug).",
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z]+$" },
+      "additionalProperties": { "$ref": "#/$defs/text_" }
+    },
     "sections": {
       "description": "What to display, as blocks in order.",
       "type": "array",
